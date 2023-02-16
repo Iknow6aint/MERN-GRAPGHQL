@@ -13,6 +13,15 @@ const ClientType = new GraphQLObjectType({
         phone: { type: GraphQLString }
     })
 })
+const ProjectType = new GraphQLObjectType({
+    name: 'Project',
+    fields: () => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        description: { type: GraphQLString },
+        status: { type: GraphQLString }
+    })
+})
 
 
 const RootQuery = new GraphQLObjectType({
@@ -29,6 +38,19 @@ const RootQuery = new GraphQLObjectType({
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
                 return clients.find(client => client.id == args.id)
+            }
+        },
+        projectss: {
+            type: new GraphQLList(ProjectType),
+            resolve(parent, args) {
+                return projects
+            }
+        },
+        project: {
+            type: ClientType,
+            args: { id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return clients.find(project => project.id == args.id)
             }
         }
     }
